@@ -68,5 +68,18 @@ namespace Snakey_Game
             ChkBox_Medium.Checked = GlobalConfig.CurrentDifficulty == GlobalConfig.DifficultyLevel.Medium;
             ChkBox_Hard.Checked = GlobalConfig.CurrentDifficulty == GlobalConfig.DifficultyLevel.Hard;
         }
+
+        private void ChkBox_HighRisk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkBox_HighRisk.Checked)
+            {
+                if (MessageBox.Show("Are you sure you want to enable High Risk Mode? This will shut the computer down when the snake dies.", "Confirm Enable High Risk Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    ChkBox_HighRisk.Checked = false; // Re-enable the checkbox if the user cancels
+                    return;
+                }
+            }
+            GlobalConfig.IsHighRiskModeEnabled = ChkBox_HighRisk.Checked;
+        }
     }
 }

@@ -33,13 +33,15 @@
             this.ChkBox_Hard = new System.Windows.Forms.CheckBox();
             this.Btn_Done = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.ChkBox_HighRisk = new System.Windows.Forms.CheckBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // ChkBox_Easy
             // 
             this.ChkBox_Easy.AutoSize = true;
             this.ChkBox_Easy.ForeColor = System.Drawing.Color.LightGreen;
-            this.ChkBox_Easy.Location = new System.Drawing.Point(12, 126);
+            this.ChkBox_Easy.Location = new System.Drawing.Point(12, 81);
             this.ChkBox_Easy.Name = "ChkBox_Easy";
             this.ChkBox_Easy.Size = new System.Drawing.Size(372, 29);
             this.ChkBox_Easy.TabIndex = 0;
@@ -51,11 +53,11 @@
             // 
             this.ChkBox_Medium.AutoSize = true;
             this.ChkBox_Medium.ForeColor = System.Drawing.Color.Yellow;
-            this.ChkBox_Medium.Location = new System.Drawing.Point(12, 161);
+            this.ChkBox_Medium.Location = new System.Drawing.Point(12, 116);
             this.ChkBox_Medium.Name = "ChkBox_Medium";
-            this.ChkBox_Medium.Size = new System.Drawing.Size(142, 29);
+            this.ChkBox_Medium.Size = new System.Drawing.Size(136, 29);
             this.ChkBox_Medium.TabIndex = 1;
-            this.ChkBox_Medium.Text = "Just normal";
+            this.ChkBox_Medium.Text = "Normie Boi";
             this.ChkBox_Medium.UseVisualStyleBackColor = true;
             this.ChkBox_Medium.CheckedChanged += new System.EventHandler(this.ChkBox_Medium_CheckedChanged);
             // 
@@ -63,7 +65,7 @@
             // 
             this.ChkBox_Hard.AutoSize = true;
             this.ChkBox_Hard.ForeColor = System.Drawing.Color.Red;
-            this.ChkBox_Hard.Location = new System.Drawing.Point(12, 196);
+            this.ChkBox_Hard.Location = new System.Drawing.Point(12, 151);
             this.ChkBox_Hard.Name = "ChkBox_Hard";
             this.ChkBox_Hard.Size = new System.Drawing.Size(324, 29);
             this.ChkBox_Hard.TabIndex = 2;
@@ -73,7 +75,7 @@
             // 
             // Btn_Done
             // 
-            this.Btn_Done.Location = new System.Drawing.Point(183, 278);
+            this.Btn_Done.Location = new System.Drawing.Point(182, 290);
             this.Btn_Done.Name = "Btn_Done";
             this.Btn_Done.Size = new System.Drawing.Size(110, 51);
             this.Btn_Done.TabIndex = 3;
@@ -91,12 +93,38 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "How difficult do you want the game to be?";
             // 
+            // ChkBox_HighRisk
+            // 
+            this.ChkBox_HighRisk.AutoSize = true;
+            this.ChkBox_HighRisk.ForeColor = System.Drawing.Color.DarkViolet;
+            this.ChkBox_HighRisk.Location = new System.Drawing.Point(12, 208);
+            this.ChkBox_HighRisk.Name = "ChkBox_HighRisk";
+            this.ChkBox_HighRisk.Size = new System.Drawing.Size(292, 29);
+            this.ChkBox_HighRisk.TabIndex = 5;
+            this.ChkBox_HighRisk.Text = "HIGH RISK HIGH REWARD";
+            this.ChkBox_HighRisk.UseVisualStyleBackColor = true;
+            this.ChkBox_HighRisk.CheckedChanged += new System.EventHandler(this.ChkBox_HighRisk_CheckedChanged);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.Color.Black;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.ForeColor = System.Drawing.Color.DarkViolet;
+            this.richTextBox1.Location = new System.Drawing.Point(12, 243);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(444, 29);
+            this.richTextBox1.TabIndex = 6;
+            this.richTextBox1.Text = "Turning this on means 10 points per apple, but instant shutdown if you lose.";
+            // 
             // DifficultyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(473, 343);
+            this.ClientSize = new System.Drawing.Size(473, 366);
+            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.ChkBox_HighRisk);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Btn_Done);
             this.Controls.Add(this.ChkBox_Hard);
@@ -123,5 +151,7 @@
         private System.Windows.Forms.CheckBox ChkBox_Hard;
         private System.Windows.Forms.Button Btn_Done;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox ChkBox_HighRisk;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

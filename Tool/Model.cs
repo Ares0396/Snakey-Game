@@ -43,12 +43,17 @@ namespace Snakey_Game.Tool
 
             // Calculate the new head position based on the current direction
             Point currentHead = CurrentModel[0];
-            Point directionVector = Coordinates.ConvertDirectionToCoordinates(GlobalConfig.CurrentDirection);
+            Point directionVector = Coordinates.ConvertDirectionToCoordinates(GlobalConfig.DirectionQueue[0]);
             Point newHead = new Point(currentHead.X + directionVector.X, currentHead.Y + directionVector.Y);
 
             // Create the next model by adding the new head and removing the tail
             NextModel.Clear();
             NextModel.Add(newHead);
+
+            if (GlobalConfig.DirectionQueue.Count > 1)
+            {
+                GlobalConfig.DirectionQueue.RemoveAt(0);
+            }
 
             //Determine whether the snake is eating an apple or not. If it is, we don't remove the tail, otherwise we do.
             int indexUpperBound = CurrentModel.Count - 1;
@@ -56,7 +61,16 @@ namespace Snakey_Game.Tool
             {
                 indexUpperBound = CurrentModel.Count; // Keep the tail if eating an apple
                 GenerateAndSetAppleCoordinates(applePanel);
-                Score += 1; // Increase score when eating an apple
+
+                // Increase score when eating an apple
+                if (GlobalConfig.IsHighRiskModeEnabled)
+                {
+                    Score += 10; // 10 points in high-risk mode
+                }
+                else
+                {
+                    Score += 1; // Normal point increment
+                }
             }
             for (int i = 0; i < indexUpperBound; i++)
             {

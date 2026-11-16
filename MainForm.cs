@@ -17,6 +17,7 @@ namespace Snakey_Game
         Panel applePanel;
         Model snakeModel;
         List<Panel> snakeSegmentPanels;
+        bool isPaused = false;
 
         public MainForm()
         {
@@ -28,11 +29,11 @@ namespace Snakey_Game
             Pen pen = new Pen(Color.White, 5);
             Point[] points = new Point[]
             {
-                new Point(GlobalConfig.MinX, GlobalConfig.MinY),
-                new Point(GlobalConfig.MaxX, GlobalConfig.MinY),
+                new Point(GlobalConfig.MinX-1, GlobalConfig.MinY-1),
+                new Point(GlobalConfig.MaxX, GlobalConfig.MinY-1),
                 new Point(GlobalConfig.MaxX, GlobalConfig.MaxY),
-                new Point(GlobalConfig.MinX, GlobalConfig.MaxY),
-                new Point(GlobalConfig.MinX, GlobalConfig.MinY)
+                new Point(GlobalConfig.MinX-1, GlobalConfig.MaxY),
+                new Point(GlobalConfig.MinX-1, GlobalConfig.MinY-1)
             };
             e.Graphics.DrawPolygon(pen, points);
             pen.Dispose();
@@ -48,6 +49,9 @@ namespace Snakey_Game
                 Location = Coordinates.GenerateRandomCoordinates(GlobalConfig.SnakeBody.ToArray())
             };
             snakeSegmentPanels = new List<Panel>();
+
+            //Set highest score label
+            Lb_HighestScore.Text = $"Highest Score: {GlobalConfig.HighestScore}";
         }
 
         private void Btn_StartPlaying_Click(object sender, EventArgs e)
@@ -67,13 +71,17 @@ namespace Snakey_Game
 
             Btn_StartPlaying.Enabled = false;
             TxtBox_PlayerName.Enabled = false;
+
+            Lb_Status.Text = "Status: Playing";
+            Lb_Status.ForeColor = Color.Lime;
         }
 
         private void InitializeGameGraphics()
         {
             //Initialize the model for the snake's body (logic part)
             snakeModel = new Model();
-            GlobalConfig.CurrentDirection = GlobalConfig.Direction.Right; // Reset the direction to right when starting a new game
+            GlobalConfig.DirectionQueue.Clear();
+            GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Right); // Reset the direction to right when starting a new game
 
             // Add the apple panel to the form
             if (!this.Controls.Contains(applePanel))
@@ -112,16 +120,32 @@ namespace Snakey_Game
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    if (GlobalConfig.CurrentDirection != GlobalConfig.Direction.Down) GlobalConfig.CurrentDirection = GlobalConfig.Direction.Up;
+                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Down) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Up);
                     break;
                 case Keys.A:
-                    if (GlobalConfig.CurrentDirection != GlobalConfig.Direction.Right) GlobalConfig.CurrentDirection = GlobalConfig.Direction.Left;
+                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Right) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Left);
                     break;
                 case Keys.S:
-                    if (GlobalConfig.CurrentDirection != GlobalConfig.Direction.Up) GlobalConfig.CurrentDirection = GlobalConfig.Direction.Down;
+                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Up) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Down);
                     break;
                 case Keys.D:
-                    if (GlobalConfig.CurrentDirection != GlobalConfig.Direction.Left) GlobalConfig.CurrentDirection = GlobalConfig.Direction.Right;
+                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Left) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Right);
+                    break;
+                case Keys.Space:
+                    if (isPaused)
+                    {
+                        Tmr_Animation.Start();
+                        isPaused = false;
+                        Lb_Status.Text = "Status: Playing";
+                        Lb_Status.ForeColor = Color.Lime;
+                    }
+                    else
+                    {
+                        Tmr_Animation.Stop();
+                        isPaused = true;
+                        Lb_Status.Text = "Status: Paused";
+                        Lb_Status.ForeColor = Color.Yellow;
+                    }
                     break;
 
                 default:
@@ -137,20 +161,7 @@ namespace Snakey_Game
             //Check for collision
             if (snakeModel.CheckCollision())
             {
-                Tmr_Animation.Stop();
-                MessageBox.Show("Game Over! You collided with a wall or yourself.", "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Store the player's score and difficulty level
-                GlobalConfig.UserScores.Add(new UserData
-                {
-                    PlayerName = TxtBox_PlayerName.Text,
-                    Score = snakeModel.Score,
-                    Difficulty = GlobalConfig.CurrentDifficulty
-                });
-
-                Btn_StartPlaying.Enabled = true;
-                Tmr_Animation.Enabled = false;
-                TxtBox_PlayerName.Enabled = true;
+                EndGame();
                 return;
             }
 
@@ -182,6 +193,43 @@ namespace Snakey_Game
             {
                 Lb_HighestScore.Text = $"Highest Score: {snakeModel.Score}";
             }
+        }
+        private void EndGame()
+        {
+            Tmr_Animation.Stop();
+
+            EndGameForm endGameForm = new EndGameForm();
+            endGameForm.Show(); //Let it show while we continue the postgame work here (shows for 5 seconds, then closes automatically)
+
+            // Store the player's score and difficulty level
+            GlobalConfig.HighestScore = Math.Max(GlobalConfig.HighestScore, snakeModel.Score);
+            GlobalConfig.UserScores.Add(new UserData
+            {
+                PlayerName = TxtBox_PlayerName.Text,
+                Score = snakeModel.Score,
+                Difficulty = GlobalConfig.CurrentDifficulty
+            });
+            GlobalConfig.ProgressManager.SaveToRegistry(); // Save the user data to the registry
+
+
+            Btn_StartPlaying.Enabled = true;
+            Tmr_Animation.Enabled = false;
+            TxtBox_PlayerName.Enabled = true;
+
+            Lb_Status.Text = "Status: GAME OVER!";
+            Lb_Status.ForeColor = Color.Red;
+
+            //Shut down the computer if High Risk Mode is enabled
+            if (GlobalConfig.IsHighRiskModeEnabled)
+            {
+                ShutdownMechanism.ShutdownComputer();
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Tmr_Animation.Stop();
+            snakeModel?.Dispose();
         }
     }
 }

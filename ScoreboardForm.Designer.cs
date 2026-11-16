@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Dgv_Scoreboard = new System.Windows.Forms.DataGridView();
+            this.Btn_Reset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Scoreboard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +57,6 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.Dgv_Scoreboard.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Dgv_Scoreboard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Dgv_Scoreboard.EnableHeadersVisualStyles = false;
             this.Dgv_Scoreboard.GridColor = System.Drawing.Color.Black;
             this.Dgv_Scoreboard.Location = new System.Drawing.Point(0, 0);
@@ -69,8 +69,18 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.Dgv_Scoreboard.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.Dgv_Scoreboard.Size = new System.Drawing.Size(703, 421);
+            this.Dgv_Scoreboard.Size = new System.Drawing.Size(703, 340);
             this.Dgv_Scoreboard.TabIndex = 0;
+            // 
+            // Btn_Reset
+            // 
+            this.Btn_Reset.Location = new System.Drawing.Point(264, 359);
+            this.Btn_Reset.Name = "Btn_Reset";
+            this.Btn_Reset.Size = new System.Drawing.Size(148, 50);
+            this.Btn_Reset.TabIndex = 1;
+            this.Btn_Reset.Text = "Reset Data";
+            this.Btn_Reset.UseVisualStyleBackColor = false;
+            this.Btn_Reset.Click += new System.EventHandler(this.Btn_Reset_Click);
             // 
             // ScoreboardForm
             // 
@@ -78,6 +88,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(703, 421);
+            this.Controls.Add(this.Btn_Reset);
             this.Controls.Add(this.Dgv_Scoreboard);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
@@ -86,7 +97,7 @@
             this.MaximizeBox = false;
             this.Name = "ScoreboardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ScoreboardForm";
+            this.Text = "Scoreboard";
             this.Load += new System.EventHandler(this.ScoreboardForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Scoreboard)).EndInit();
             this.ResumeLayout(false);
@@ -96,5 +107,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView Dgv_Scoreboard;
+        private System.Windows.Forms.Button Btn_Reset;
     }
 }

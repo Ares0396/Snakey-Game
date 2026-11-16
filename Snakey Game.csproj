@@ -52,6 +52,12 @@
     <Compile Include="AboutAuthorForm.Designer.cs">
       <DependentUpon>AboutAuthorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EndGameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EndGameForm.Designer.cs">
+      <DependentUpon>EndGameForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DifficultyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,10 +85,15 @@
     <Compile Include="ScoreboardForm.Designer.cs">
       <DependentUpon>ScoreboardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tool\ProgressManager.cs" />
+    <Compile Include="Tool\ShutdownMechanism.cs" />
     <Compile Include="Tool\Coordinates.cs" />
     <Compile Include="Tool\Model.cs" />
     <EmbeddedResource Include="AboutAuthorForm.resx">
       <DependentUpon>AboutAuthorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EndGameForm.resx">
+      <DependentUpon>EndGameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DifficultyForm.resx">
       <DependentUpon>DifficultyForm.cs</DependentUpon>
@@ -101,6 +112,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ScoreboardForm.resx">
       <DependentUpon>ScoreboardForm.cs</DependentUpon>
@@ -117,6 +129,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Sonic exe tails scream.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Snakey_Game.Tool;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,8 @@ namespace Snakey_Game
         public Launcher()
         {
             InitializeComponent();
+            GlobalConfig.ProgressManager = new ProgressManager();
+            GlobalConfig.ProgressManager.LoadFromRegistry(); // Load the user data from the registry
         }
 
         private void Btn_Play_Click(object sender, EventArgs e)

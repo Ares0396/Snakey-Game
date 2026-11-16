@@ -14,17 +14,17 @@ namespace Snakey_Game.Tool
             Random random = new Random();
             int x = random.Next(GlobalConfig.MinX, GlobalConfig.MaxX);
             int y = random.Next(GlobalConfig.MinY, GlobalConfig.MaxY);
-            // Ensure the coordinates are multiples of 10
-            x = (x / 10) * 10;
-            y = (y / 10) * 10;
+            // Ensure the coordinates are multiples of 15
+            x = (x / 15) * 15;
+            y = (y / 15) * 15;
 
             // Check if the generated coordinates are in the exception points
             while (exceptionPoints.Any(p => p.X == x && p.Y == y))
             {
                 x = random.Next(GlobalConfig.MinX, GlobalConfig.MaxX);
                 y = random.Next(GlobalConfig.MinY, GlobalConfig.MaxY);
-                x = (x / 10) * 10;
-                y = (y / 10) * 10;
+                x = (x / 15) * 15;
+                y = (y / 15) * 15;
             }
 
             return new Point(x, y);

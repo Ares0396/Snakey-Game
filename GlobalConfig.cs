@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,10 +57,15 @@ namespace Snakey_Game
         public static List<Direction> DirectionQueue { get; set; } = new List<Direction>();
 
         public static ProgressManager ProgressManager { get; set; } = new ProgressManager();
+        public static SoundPlayer SoundPlayer { get; set; } = new SoundPlayer();
+
+        //Setting configs
+        public static bool TurnOnDeathSoundEffect { get; set; } = false; //default
     }
 
     public class UserData
     {
+        public int Index { get; set; }
         public string PlayerName { get; set; }
         public int Score { get; set; }
         public GlobalConfig.DifficultyLevel Difficulty { get; set; }

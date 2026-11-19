@@ -45,5 +45,11 @@ namespace Snakey_Game
             AboutAuthorForm aboutAuthorForm = new AboutAuthorForm();
             aboutAuthorForm.ShowDialog();
         }
+
+        private void Btn_Setting_Click(object sender, EventArgs e)
+        {
+            SettingForm settingForm = new SettingForm();
+            settingForm.ShowDialog();
+        }
     }
 }

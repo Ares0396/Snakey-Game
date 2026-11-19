@@ -42,7 +42,7 @@ namespace Snakey_Game
             {
                 GlobalConfig.UserScores.Clear();
                 GlobalConfig.ProgressManager.ClearRegistry(); // Clear the registry
-                Dgv_Scoreboard.Rows.Clear(); // Clear any existing rows
+                Dgv_Scoreboard.Refresh(); // Refresh the DataGridView to reflect the changes
             }
         }
     }

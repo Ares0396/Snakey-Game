@@ -73,6 +73,15 @@ namespace Snakey_Game.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream slendytubby_scream_made_with_Voicemod {
+            get {
+                return ResourceManager.GetStream("slendytubby_scream_made_with_Voicemod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Sonic_exe_tails_scream {
             get {
                 return ResourceManager.GetStream("Sonic_exe_tails_scream", resourceCulture);

@@ -19,6 +19,8 @@ namespace Snakey_Game
         List<Panel> snakeSegmentPanels;
         bool isPaused = false;
 
+        readonly Random random = new Random();
+
         public MainForm()
         {
             InitializeComponent();
@@ -52,6 +54,12 @@ namespace Snakey_Game
 
             //Set highest score label
             Lb_HighestScore.Text = $"Highest Score: {GlobalConfig.HighestScore}";
+
+            if (GlobalConfig.TurnOnDeathSoundEffect)
+            {
+                GlobalConfig.SoundPlayer.Stream = random.Next() % 2 == 0 ? Properties.Resources.Sonic_exe_tails_scream : Properties.Resources.slendytubby_scream_made_with_Voicemod; // Set the sound effect file path
+                GlobalConfig.SoundPlayer.Load(); // Load the sound effect into memory when the main form loads
+            }
         }
 
         private void Btn_StartPlaying_Click(object sender, EventArgs e)
@@ -197,6 +205,10 @@ namespace Snakey_Game
         private void EndGame()
         {
             Tmr_Animation.Stop();
+            if (GlobalConfig.TurnOnDeathSoundEffect)
+            {
+                GlobalConfig.SoundPlayer.Play(); // Play the sound effect when the game ends
+            }
 
             EndGameForm endGameForm = new EndGameForm();
             endGameForm.Show(); //Let it show while we continue the postgame work here (shows for 5 seconds, then closes automatically)
@@ -207,7 +219,8 @@ namespace Snakey_Game
             {
                 PlayerName = TxtBox_PlayerName.Text,
                 Score = snakeModel.Score,
-                Difficulty = GlobalConfig.CurrentDifficulty
+                Difficulty = GlobalConfig.CurrentDifficulty,
+                Index = GlobalConfig.UserScores.Count // Use the current count as the index for the new entry
             });
             GlobalConfig.ProgressManager.SaveToRegistry(); // Save the user data to the registry
 
@@ -223,6 +236,12 @@ namespace Snakey_Game
             if (GlobalConfig.IsHighRiskModeEnabled)
             {
                 ShutdownMechanism.ShutdownComputer();
+            }
+
+            if (GlobalConfig.TurnOnDeathSoundEffect)
+            {
+                GlobalConfig.SoundPlayer.Stream = random.Next(1,10) % 2 == 0 ? Properties.Resources.Sonic_exe_tails_scream : Properties.Resources.slendytubby_scream_made_with_Voicemod; // Set the sound effect file path
+                GlobalConfig.SoundPlayer.Load(); // Load the sound effect into memory when the main form loads
             }
         }
 

@@ -108,7 +108,7 @@ namespace Snakey_Game.Tool
                 throw new ObjectDisposedException("Model has been disposed.");
             }
 
-            Point applePosition = Coordinates.GenerateRandomCoordinates(GlobalConfig.SnakeBody.ToArray());
+            Point applePosition = Coordinates.GenerateRandomCoordinates(CurrentModel.ToArray());
             applePanel.Location = applePosition;
             GlobalConfig.ApplePosition = applePosition;
         }

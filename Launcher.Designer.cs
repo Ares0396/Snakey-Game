@@ -33,12 +33,13 @@
             this.Btn_SetDifficulty = new System.Windows.Forms.Button();
             this.Btn_Play = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.Btn_Setting = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Btn_AuthorInfo
             // 
             this.Btn_AuthorInfo.ForeColor = System.Drawing.Color.White;
-            this.Btn_AuthorInfo.Location = new System.Drawing.Point(14, 268);
+            this.Btn_AuthorInfo.Location = new System.Drawing.Point(14, 314);
             this.Btn_AuthorInfo.Name = "Btn_AuthorInfo";
             this.Btn_AuthorInfo.Size = new System.Drawing.Size(399, 40);
             this.Btn_AuthorInfo.TabIndex = 9;
@@ -88,12 +89,24 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Welcome to Ares0396\'s SNAKEY GAME!";
             // 
+            // Btn_Setting
+            // 
+            this.Btn_Setting.ForeColor = System.Drawing.Color.White;
+            this.Btn_Setting.Location = new System.Drawing.Point(14, 268);
+            this.Btn_Setting.Name = "Btn_Setting";
+            this.Btn_Setting.Size = new System.Drawing.Size(399, 40);
+            this.Btn_Setting.TabIndex = 10;
+            this.Btn_Setting.Text = "Setting";
+            this.Btn_Setting.UseVisualStyleBackColor = false;
+            this.Btn_Setting.Click += new System.EventHandler(this.Btn_Setting_Click);
+            // 
             // Launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(422, 343);
+            this.ClientSize = new System.Drawing.Size(422, 377);
+            this.Controls.Add(this.Btn_Setting);
             this.Controls.Add(this.Btn_AuthorInfo);
             this.Controls.Add(this.Btn_Scoreboard);
             this.Controls.Add(this.Btn_SetDifficulty);
@@ -119,5 +132,6 @@
         private System.Windows.Forms.Button Btn_SetDifficulty;
         private System.Windows.Forms.Button Btn_Play;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Btn_Setting;
     }
 }

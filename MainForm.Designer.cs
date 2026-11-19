@@ -104,12 +104,12 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(48, 437);
+            this.label1.Location = new System.Drawing.Point(12, 451);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(170, 100);
+            this.label1.Size = new System.Drawing.Size(253, 120);
             this.label1.TabIndex = 6;
             this.label1.Text = "Press W to move up.\r\nPress A to move left.\r\nPress S to move down.\r\nPress D to mov" +
-    "e right.\r\nPress Space to pause.";
+    "e right.\r\nPress Space to pause.\r\nPress Esc to exit the Death screen";
             // 
             // MainForm
             // 

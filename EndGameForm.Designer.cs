@@ -34,7 +34,7 @@
             // 
             // Tmr_FormClose
             // 
-            this.Tmr_FormClose.Interval = 6000;
+            this.Tmr_FormClose.Interval = 5000;
             this.Tmr_FormClose.Tick += new System.EventHandler(this.Tmr_FormClose_Tick);
             // 
             // EndGameForm
@@ -55,6 +55,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EndGameForm_FormClosing);
             this.Load += new System.EventHandler(this.EndGameForm_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EndGameForm_KeyPress);
             this.ResumeLayout(false);
 
         }

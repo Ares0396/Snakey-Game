@@ -1,6 +1,6 @@
 ﻿namespace Snakey_Game
 {
-    partial class MainForm
+    partial class GameForm
     {
         /// <summary>
         /// Required designer variable.
@@ -59,7 +59,7 @@
             // 
             // TxtBox_PlayerName
             // 
-            this.TxtBox_PlayerName.BackColor = System.Drawing.Color.Black;
+            this.TxtBox_PlayerName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.TxtBox_PlayerName.ForeColor = System.Drawing.Color.White;
             this.TxtBox_PlayerName.Location = new System.Drawing.Point(52, 192);
             this.TxtBox_PlayerName.Name = "TxtBox_PlayerName";
@@ -111,11 +111,11 @@
             this.label1.Text = "Press W to move up.\r\nPress A to move left.\r\nPress S to move down.\r\nPress D to mov" +
     "e right.\r\nPress Space to pause.\r\nPress Esc to exit the Death screen";
             // 
-            // MainForm
+            // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(1184, 631);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Lb_Status);
@@ -129,9 +129,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
-            this.Name = "MainForm";
+            this.Name = "GameForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Snakey Game v1.0";
+            this.Text = "Snakey Game v1.3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);

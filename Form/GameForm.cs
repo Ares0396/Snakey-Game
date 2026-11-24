@@ -1,27 +1,23 @@
 ﻿using Snakey_Game.Tool;
+using Snakey_Game.Tool.Manager;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Snakey_Game
 {
-    public partial class MainForm : Form
+    public partial class GameForm : Form
     {
         Panel applePanel;
         Model snakeModel;
+        UI snakeUI;
         List<Panel> snakeSegmentPanels;
         bool isPaused = false;
 
         readonly Random random = new Random();
 
-        public MainForm()
+        public GameForm()
         {
             InitializeComponent();
         }
@@ -43,19 +39,21 @@ namespace Snakey_Game
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            UI.ApplySettingToForm(this);
+
             //Define the apple panel (which represents the apple itself)
             applePanel = new Panel
             {
                 Size = new Size(GlobalConfig.FoodSize, GlobalConfig.FoodSize),
-                BackColor = Color.Red,
-                Location = Coordinates.GenerateRandomCoordinates(GlobalConfig.SnakeBody.ToArray())
+                BackColor = SettingManager.AppleColor,
+                Location = Coordinates.GenerateRandomCoordinates(GlobalConfig.StartingSnakeBody.ToArray())
             };
             snakeSegmentPanels = new List<Panel>();
 
             //Set highest score label
             Lb_HighestScore.Text = $"Highest Score: {GlobalConfig.HighestScore}";
 
-            if (GlobalConfig.TurnOnDeathSoundEffect)
+            if (SettingManager.TurnOnDeathSoundEffect)
             {
                 GlobalConfig.SoundPlayer.Stream = random.Next() % 2 == 0 ? Properties.Resources.Sonic_exe_tails_scream : Properties.Resources.slendytubby_scream_made_with_Voicemod; // Set the sound effect file path
                 GlobalConfig.SoundPlayer.Load(); // Load the sound effect into memory when the main form loads
@@ -72,7 +70,7 @@ namespace Snakey_Game
             //Not implemented yet, but this is where the player name will be stored for future use
             InitializeGameGraphics();
 
-            GlobalConfig.SnakeMovementInterval = (int)GlobalConfig.CurrentDifficulty; // Update the interval based on the selected difficulty level
+            GlobalConfig.SnakeMovementInterval = (int)SettingManager.CurrentDifficulty; // Update the interval based on the selected difficulty level
             Tmr_Animation.Interval = GlobalConfig.SnakeMovementInterval; //Set the interval based on the difficulty level
             Tmr_Animation.Enabled = true;
             Tmr_Animation.Start();
@@ -86,17 +84,18 @@ namespace Snakey_Game
 
         private void InitializeGameGraphics()
         {
-            //Initialize the model for the snake's body (logic part)
+            // Initialize the snake model and UI
             snakeModel = new Model();
+            snakeUI = new UI(applePanel, snakeSegmentPanels, snakeModel, this);
+
             GlobalConfig.DirectionQueue.Clear();
-            GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Right); // Reset the direction to right when starting a new game
 
             // Add the apple panel to the form
             if (!this.Controls.Contains(applePanel))
             {
                 this.Controls.Add(applePanel);
             }
-            snakeModel.GenerateAndSetAppleCoordinates(applePanel);
+            snakeUI.GenerateApple(); // Set the apple's initial position
 
             // Add the snake body panels to the form
             foreach (Panel snakeSegmentPanel in snakeSegmentPanels)
@@ -106,12 +105,12 @@ namespace Snakey_Game
             }
             snakeSegmentPanels.Clear();
 
-            foreach (var segment in GlobalConfig.SnakeBody)
+            foreach (var segment in GlobalConfig.StartingSnakeBody)
             {
                 Panel snakeSegmentPanel = new Panel
                 {
                     Size = new Size(GlobalConfig.SnakeSize, GlobalConfig.SnakeSize),
-                    BackColor = Color.Green,
+                    BackColor = SettingManager.SnakeColor,
                     Location = segment
                 };
                 this.Controls.Add(snakeSegmentPanel);
@@ -128,16 +127,20 @@ namespace Snakey_Game
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Down) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Up);
+                    if (isPaused) return; // If the game is paused, ignore direction changes
+                    if (GlobalConfig.DirectionQueue.Count == 0 || GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Down) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Up);
                     break;
                 case Keys.A:
-                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Right) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Left);
+                    if (isPaused) return; // If the game is paused, ignore direction changes
+                    if (GlobalConfig.DirectionQueue.Count == 0 || GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Right) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Left);
                     break;
                 case Keys.S:
-                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Up) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Down);
+                    if (isPaused) return; // If the game is paused, ignore direction changes
+                    if (GlobalConfig.DirectionQueue.Count == 0 || GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Up) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Down);
                     break;
                 case Keys.D:
-                    if (GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Left) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Right);
+                    if (isPaused) return; // If the game is paused, ignore direction changes
+                    if (GlobalConfig.DirectionQueue.Count == 0 || GlobalConfig.DirectionQueue[0] != GlobalConfig.Direction.Left) GlobalConfig.DirectionQueue.Add(GlobalConfig.Direction.Right);
                     break;
                 case Keys.Space:
                     if (isPaused)
@@ -159,12 +162,16 @@ namespace Snakey_Game
                 default:
                     break;
             }
+
+            // Prevent the default behavior of the keys (like scrolling, or making a beep sound)
+            e.Handled = true;
+            e.SuppressKeyPress = true;
         }
 
         private void Tmr_Animation_Tick(object sender, EventArgs e)
         {
             //Build the next model based on the current direction and current model
-            snakeModel.BuildNextModel(applePanel);
+            snakeModel.BuildNextModel();
 
             //Check for collision
             if (snakeModel.CheckCollision())
@@ -175,23 +182,7 @@ namespace Snakey_Game
 
             //Update the current model to the next model
             snakeModel.UpdateModel();
-
-            //(TEST): New way to update snake segment panels
-            Panel newHead = new Panel()
-            {
-                Size = new Size(GlobalConfig.SnakeSize, GlobalConfig.SnakeSize),
-                BackColor = Color.Green,
-                Location = snakeModel.CurrentModel[0]
-            };
-            this.Controls.Add(newHead);
-            snakeSegmentPanels.Insert(0, newHead);
-
-            if (snakeModel.CurrentModel.Count < snakeSegmentPanels.Count)
-            {
-                Panel tail = snakeSegmentPanels.Last();
-                snakeSegmentPanels.Remove(tail);
-                tail.Dispose();
-            }
+            snakeUI.UpdateUI();
 
             // Update the score display
             // Also update the highest score if the current score exceeds it
@@ -205,7 +196,7 @@ namespace Snakey_Game
         private void EndGame()
         {
             Tmr_Animation.Stop();
-            if (GlobalConfig.TurnOnDeathSoundEffect)
+            if (SettingManager.TurnOnDeathSoundEffect)
             {
                 GlobalConfig.SoundPlayer.Play(); // Play the sound effect when the game ends
             }
@@ -219,10 +210,10 @@ namespace Snakey_Game
             {
                 PlayerName = TxtBox_PlayerName.Text,
                 Score = snakeModel.Score,
-                Difficulty = GlobalConfig.CurrentDifficulty,
+                Difficulty = SettingManager.CurrentDifficulty,
                 Index = GlobalConfig.UserScores.Count // Use the current count as the index for the new entry
             });
-            GlobalConfig.ProgressManager.SaveToRegistry(); // Save the user data to the registry
+            GlobalConfig.UserDataManager.SaveToRegistry(); // Save the user data to the registry
 
 
             Btn_StartPlaying.Enabled = true;
@@ -233,21 +224,25 @@ namespace Snakey_Game
             Lb_Status.ForeColor = Color.Red;
 
             //Shut down the computer if High Risk Mode is enabled
-            if (GlobalConfig.IsHighRiskModeEnabled)
+            if (SettingManager.IsHighRiskModeEnabled)
             {
                 ShutdownMechanism.ShutdownComputer();
             }
 
-            if (GlobalConfig.TurnOnDeathSoundEffect)
+            if (SettingManager.TurnOnDeathSoundEffect)
             {
                 GlobalConfig.SoundPlayer.Stream = random.Next(1,10) % 2 == 0 ? Properties.Resources.Sonic_exe_tails_scream : Properties.Resources.slendytubby_scream_made_with_Voicemod; // Set the sound effect file path
                 GlobalConfig.SoundPlayer.Load(); // Load the sound effect into memory when the main form loads
             }
+
+            snakeModel.Dispose(); // Dispose of the model to free resources
+            snakeUI.Dispose();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Tmr_Animation.Stop();
+            snakeUI?.Dispose();
             snakeModel?.Dispose();
         }
     }

@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Snakey_Game.Tool.Manager;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Snakey_Game.Tool
 {
@@ -18,8 +16,8 @@ namespace Snakey_Game.Tool
 
         public Model()
         {
-            CurrentModel = new List<Point>(GlobalConfig.SnakeBody);
-            NextModel = new List<Point>(GlobalConfig.SnakeBody);
+            CurrentModel = new List<Point>(GlobalConfig.StartingSnakeBody);
+            NextModel = new List<Point>(GlobalConfig.StartingSnakeBody);
         }
 
         public void UpdateModel()
@@ -34,11 +32,15 @@ namespace Snakey_Game.Tool
             CurrentModel.AddRange(NextModel);
         }
 
-        public void BuildNextModel(Panel applePanel)
+        public void BuildNextModel()
         {
             if (isDisposed)
             {
                 throw new ObjectDisposedException("Model has been disposed.");
+            }
+            if (GlobalConfig.DirectionQueue.Count == 0)
+            {
+                return;
             }
 
             // Calculate the new head position based on the current direction
@@ -60,10 +62,10 @@ namespace Snakey_Game.Tool
             if (newHead == GlobalConfig.ApplePosition)
             {
                 indexUpperBound = CurrentModel.Count; // Keep the tail if eating an apple
-                GenerateAndSetAppleCoordinates(applePanel);
+                SetAppleCoordinates();
 
                 // Increase score when eating an apple
-                if (GlobalConfig.IsHighRiskModeEnabled)
+                if (SettingManager.IsHighRiskModeEnabled)
                 {
                     Score += 10; // 10 points in high-risk mode
                 }
@@ -73,9 +75,9 @@ namespace Snakey_Game.Tool
                 }
             }
             for (int i = 0; i < indexUpperBound; i++)
-            {
-                NextModel.Add(CurrentModel[i]);
-            }
+                {
+                    NextModel.Add(CurrentModel[i]);
+                }
         }
         
         public bool CheckCollision()
@@ -101,7 +103,7 @@ namespace Snakey_Game.Tool
             return false;
         }
 
-        public void GenerateAndSetAppleCoordinates(Panel applePanel)
+        public void SetAppleCoordinates()
         {
             if (isDisposed)
             {
@@ -109,7 +111,6 @@ namespace Snakey_Game.Tool
             }
 
             Point applePosition = Coordinates.GenerateRandomCoordinates(CurrentModel.ToArray());
-            applePanel.Location = applePosition;
             GlobalConfig.ApplePosition = applePosition;
         }
 

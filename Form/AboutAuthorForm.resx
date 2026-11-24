@@ -118,18 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>- Developer: Ares0396 &amp; Urast2379
-=&gt; Check out Ares0396's GitHub page: https://github.com/Ares0396
-=&gt; Urast2379 does not want to be contacted by any means, unfortunately.
+    <value>- Developer:
+   + Ares0396: https://github.com/Ares0396 OR cristianohaxheli@gmail.com (weird name btw) OR Discord name (@Ares0396)
+   + Urast2379: A random but helpful contributor to the project.
 
 - Original Developer of Nokia Snake Game: Taneli Armanto
 =&gt; Check out his page: https://taneliarmanto.com/
 
-- Playtesters: dr3n, PKLL, High Guy &amp; BisKit
-=&gt; Ares0396's classmates and friends.
+- Playtesters: dr3n, PKLL, BisKit &amp; Squid
+   + dr3n: Developer of A Dope Snake Game (coded in Python)
+   + PKLL: An enthusiastic (and emotionally expressive) play tester
+   + BisKit: A verified playtester
+   + Squid: A playtester who somehow makes impossible games look easy
 
-The developer of this game would like to express his gratitude to those who have helped him in ways, from giving him suggestions, programming the game to testing the game.
-
-He would also like to thank you for playing and enjoying this game. If you would like to contribute anything, you can either go to the project page (https://github.com/Ares0396/SnakeyGame) or contact him directly via Discord (@Ares0396) or email (cristianohaxheli@gmail.com).</value>
+Thank you for playing and enjoying our games!</value>
   </data>
 </root>

@@ -46,71 +46,72 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutAuthorForm.cs">
+    <Compile Include="Form\AboutAuthorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutAuthorForm.Designer.cs">
+    <Compile Include="Form\AboutAuthorForm.Designer.cs">
       <DependentUpon>AboutAuthorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EndGameForm.cs">
+    <Compile Include="Form\EndGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EndGameForm.Designer.cs">
+    <Compile Include="Form\EndGameForm.Designer.cs">
       <DependentUpon>EndGameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DifficultyForm.cs">
+    <Compile Include="Form\DifficultyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DifficultyForm.Designer.cs">
+    <Compile Include="Form\DifficultyForm.Designer.cs">
       <DependentUpon>DifficultyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalConfig.cs" />
-    <Compile Include="Launcher.cs">
+    <Compile Include="Form\Launcher.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Launcher.Designer.cs">
+    <Compile Include="Form\Launcher.Designer.cs">
       <DependentUpon>Launcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Form\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Form\GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScoreboardForm.cs">
+    <Compile Include="Form\ScoreboardForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScoreboardForm.Designer.cs">
+    <Compile Include="Form\ScoreboardForm.Designer.cs">
       <DependentUpon>ScoreboardForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SettingForm.cs">
+    <Compile Include="Form\SettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SettingForm.Designer.cs">
+    <Compile Include="Form\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\Parser.cs" />
-    <Compile Include="Tool\ProgressManager.cs" />
-    <Compile Include="Tool\SettingManager.cs" />
+    <Compile Include="Tool\Manager\UserDataManager.cs" />
+    <Compile Include="Tool\Manager\SettingManager.cs" />
     <Compile Include="Tool\ShutdownMechanism.cs" />
     <Compile Include="Tool\Coordinates.cs" />
     <Compile Include="Tool\Model.cs" />
-    <EmbeddedResource Include="AboutAuthorForm.resx">
+    <Compile Include="Tool\UI.cs" />
+    <EmbeddedResource Include="Form\AboutAuthorForm.resx">
       <DependentUpon>AboutAuthorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EndGameForm.resx">
+    <EmbeddedResource Include="Form\EndGameForm.resx">
       <DependentUpon>EndGameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DifficultyForm.resx">
+    <EmbeddedResource Include="Form\DifficultyForm.resx">
       <DependentUpon>DifficultyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Launcher.resx">
+    <EmbeddedResource Include="Form\Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Form\GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,10 +123,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ScoreboardForm.resx">
+    <EmbeddedResource Include="Form\ScoreboardForm.resx">
       <DependentUpon>ScoreboardForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingForm.resx">
+    <EmbeddedResource Include="Form\SettingForm.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -150,5 +151,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\slendytubby-scream-made-with-Voicemod.wav" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

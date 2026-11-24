@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Snakey_Game.Tool;
+using Snakey_Game.Tool.Manager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +21,16 @@ namespace Snakey_Game
 
         private void ScoreboardForm_Load(object sender, EventArgs e)
         {
+            UI.ApplySettingToForm(this);
+            Dgv_Scoreboard.BackgroundColor = SettingManager.BackgroundColor;
+            Dgv_Scoreboard.ForeColor = SettingManager.ForegroundColor;
+
+            Dgv_Scoreboard.DefaultCellStyle.BackColor = SettingManager.BackgroundColor;
+            Dgv_Scoreboard.DefaultCellStyle.ForeColor = SettingManager.ForegroundColor;
+
+            Dgv_Scoreboard.ColumnHeadersDefaultCellStyle.BackColor = SettingManager.BackgroundColor;
+            Dgv_Scoreboard.ColumnHeadersDefaultCellStyle.ForeColor = SettingManager.ForegroundColor;
+
             Dgv_Scoreboard.DataSource = GlobalConfig.UserScores
                 .OrderByDescending(user => user.Score)
                 .Select(user => new
@@ -41,7 +53,7 @@ namespace Snakey_Game
             if (MessageBox.Show("Are you sure you want to reset the scoreboard? This action cannot be undone.", "Confirm Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 GlobalConfig.UserScores.Clear();
-                GlobalConfig.ProgressManager.ClearRegistry(); // Clear the registry
+                GlobalConfig.UserDataManager.ClearRegistry(); // Clear the registry
                 Dgv_Scoreboard.Refresh(); // Refresh the DataGridView to reflect the changes
             }
         }

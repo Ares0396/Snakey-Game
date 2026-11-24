@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Snakey_Game.Tool;
+using Snakey_Game.Tool.Manager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,7 +27,7 @@ namespace Snakey_Game
                 return;
             }
 
-            //Nothing else other than exiting lol
+            SettingManager.SaveSettingsToRegistry(); // Only difficulty level is affected since only difficulty is changed here, but we can save all settings for consistency.
             this.Close();
         }
 
@@ -35,8 +37,8 @@ namespace Snakey_Game
             {
                 ChkBox_Medium.Checked = false;
                 ChkBox_Hard.Checked = false;
-                GlobalConfig.CurrentDifficulty = GlobalConfig.DifficultyLevel.Easy;
-                GlobalConfig.SnakeMovementInterval = (int)GlobalConfig.CurrentDifficulty;
+                SettingManager.CurrentDifficulty = GlobalConfig.DifficultyLevel.Easy;
+                GlobalConfig.SnakeMovementInterval = (int)SettingManager.CurrentDifficulty;
             }
         }
 
@@ -46,8 +48,8 @@ namespace Snakey_Game
             {
                 ChkBox_Easy.Checked = false;
                 ChkBox_Hard.Checked = false;
-                GlobalConfig.CurrentDifficulty = GlobalConfig.DifficultyLevel.Medium;
-                GlobalConfig.SnakeMovementInterval = (int)GlobalConfig.CurrentDifficulty;
+                SettingManager.CurrentDifficulty = GlobalConfig.DifficultyLevel.Medium;
+                GlobalConfig.SnakeMovementInterval = (int)SettingManager.CurrentDifficulty;
             }
         }
 
@@ -57,16 +59,23 @@ namespace Snakey_Game
             {
                 ChkBox_Easy.Checked = false;
                 ChkBox_Medium.Checked = false;
-                GlobalConfig.CurrentDifficulty = GlobalConfig.DifficultyLevel.Hard;
-                GlobalConfig.SnakeMovementInterval = (int)GlobalConfig.CurrentDifficulty;
+                SettingManager.CurrentDifficulty = GlobalConfig.DifficultyLevel.Hard;
+                GlobalConfig.SnakeMovementInterval = (int)SettingManager.CurrentDifficulty;
             }
         }
 
         private void DifficultyForm_Load(object sender, EventArgs e)
         {
-            ChkBox_Easy.Checked = GlobalConfig.CurrentDifficulty == GlobalConfig.DifficultyLevel.Easy;
-            ChkBox_Medium.Checked = GlobalConfig.CurrentDifficulty == GlobalConfig.DifficultyLevel.Medium;
-            ChkBox_Hard.Checked = GlobalConfig.CurrentDifficulty == GlobalConfig.DifficultyLevel.Hard;
+            BackColor = SettingManager.BackgroundColor;
+            ForeColor = SettingManager.ForegroundColor;
+            foreach (Control control in this.Controls)
+            {
+                if (control is Label) control.BackColor = BackColor;
+            }
+
+            ChkBox_Easy.Checked = SettingManager.CurrentDifficulty == GlobalConfig.DifficultyLevel.Easy;
+            ChkBox_Medium.Checked = SettingManager.CurrentDifficulty == GlobalConfig.DifficultyLevel.Medium;
+            ChkBox_Hard.Checked = SettingManager.CurrentDifficulty == GlobalConfig.DifficultyLevel.Hard;
         }
 
         private void ChkBox_HighRisk_CheckedChanged(object sender, EventArgs e)
@@ -75,11 +84,11 @@ namespace Snakey_Game
             {
                 if (MessageBox.Show("Are you sure you want to enable High Risk Mode? This will shut the computer down when the snake dies.", "Confirm Enable High Risk Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 {
-                    ChkBox_HighRisk.Checked = false; // Re-enable the checkbox if the user cancels
+                    ChkBox_HighRisk.Checked = false; // Re-disable the checkbox if the user cancels
                     return;
                 }
             }
-            GlobalConfig.IsHighRiskModeEnabled = ChkBox_HighRisk.Checked;
+            SettingManager.IsHighRiskModeEnabled = ChkBox_HighRisk.Checked;
         }
     }
 }
